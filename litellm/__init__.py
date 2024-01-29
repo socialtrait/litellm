@@ -419,6 +419,7 @@ provider_list: List = [
     "cloudflare",
     "xinference",
     "custom",  # custom apis
+    "socialtrait",
 ]
 
 models_by_provider: dict = {

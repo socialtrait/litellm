@@ -60,6 +60,7 @@ from .llms import (
     gemini,
     vertex_ai,
     maritalk,
+    socialtrait,
 )
 from .llms.openai import OpenAIChatCompletion, OpenAITextCompletion
 from .llms.azure import AzureChatCompletion
@@ -69,6 +70,7 @@ from .llms.prompt_templates.factory import (
     custom_prompt,
     function_call_prompt,
 )
+from .llms.socialtrait import SocialtraitChatCompletion
 import tiktoken
 from concurrent.futures import ThreadPoolExecutor
 from typing import Callable, List, Optional, Dict, Union, Mapping
@@ -94,6 +96,7 @@ dotenv.load_dotenv()  # Loading env variables using dotenv
 openai_chat_completions = OpenAIChatCompletion()
 openai_text_completions = OpenAITextCompletion()
 azure_chat_completions = AzureChatCompletion()
+socialtrait_chat_completions = SocialtraitChatCompletion()
 huggingface = Huggingface()
 ####### COMPLETION ENDPOINTS ################
 
@@ -261,6 +264,7 @@ async def acompletion(
             or custom_llm_provider == "ollama"
             or custom_llm_provider == "ollama_chat"
             or custom_llm_provider == "vertex_ai"
+            or custom_llm_provider == "socialtrait"
         ):  # currently implemented aiohttp calls for just azure, openai, hf, ollama, vertex ai soon all.
             init_response = await loop.run_in_executor(None, func_with_context)
             if isinstance(init_response, dict) or isinstance(
@@ -271,6 +275,7 @@ async def acompletion(
                 response = await init_response
             else:
                 response = init_response  # type: ignore
+
         else:
             # Call the synchronous function using run_in_executor
             response = await loop.run_in_executor(None, func_with_context)  # type: ignore
@@ -1783,6 +1788,51 @@ def completion(
                 )
                 return response
             response = model_response
+        elif custom_llm_provider == "socialtrait":
+            api_base = api_base or litellm.api_base
+            api_key = api_key or litellm.api_key
+            headers = headers or litellm.headers
+
+            ## COMPLETION CALL
+            try:
+                response = socialtrait_chat_completions.completion(
+                    model=model,
+                    messages=messages,
+                    headers=headers,
+                    model_response=model_response,
+                    print_verbose=print_verbose,
+                    api_key=api_key,
+                    api_base=api_base,
+                    acompletion=acompletion,
+                    logging_obj=logging,
+                    optional_params=optional_params,
+                    litellm_params=litellm_params,
+                    logger_fn=logger_fn,
+                    timeout=timeout,
+                    custom_prompt_dict=custom_prompt_dict,
+                    client=client,  # pass AsyncOpenAI, OpenAI client
+                )
+            except Exception as e:
+                ## LOGGING - log the original exception returned
+                logging.post_call(
+                    input=messages,
+                    api_key=api_key,
+                    original_response=str(e),
+                    additional_args={"headers": headers},
+                )
+                raise e
+
+            if optional_params.get("stream", False):
+                raise NotImplementedError
+                # ## LOGGING
+                # logging.post_call(
+                #     input=messages,
+                #     api_key=api_key,
+                #     original_response=response,
+                #     additional_args={"headers": headers},
+                # )
+            return response
+
         elif custom_llm_provider == "custom":
             import requests
 

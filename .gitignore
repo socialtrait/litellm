@@ -35,3 +35,4 @@ hosted_config.yaml
 litellm/proxy/tests/node_modules
 litellm/proxy/tests/package.json
 litellm/proxy/tests/package-lock.json
+litellm/testing.py
