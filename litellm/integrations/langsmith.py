@@ -64,7 +64,7 @@ class LangsmithLogger(CustomBatchLogger):
         if _batch_size:
             self.batch_size = int(_batch_size)
         self.log_queue: List[LangsmithQueueObject] = []
-        asyncio.create_task(self.periodic_flush())
+        create_background_task(self.periodic_flush())
         self.flush_lock = asyncio.Lock()
 
         super().__init__(**kwargs, flush_lock=self.flush_lock)
@@ -472,7 +472,7 @@ class LangsmithLogger(CustomBatchLogger):
             loop = asyncio.get_event_loop()
             if loop.is_running():
                 # If we're already in an event loop, create a task
-                asyncio.create_task(self.async_send_batch())
+                create_background_task(self.async_send_batch())
             else:
                 # If no event loop is running, run the coroutine directly
                 loop.run_until_complete(self.async_send_batch())

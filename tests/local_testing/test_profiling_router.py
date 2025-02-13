@@ -137,7 +137,7 @@
 # #     nonlocal tasks
 # #     for _ in range(batches):
 # #         # Make 1,000 requests
-# #         task = asyncio.create_task(make_requests(request_limit))
+# #         task = create_background_task(make_requests(request_limit))
 # #         tasks.append(task)
 
 # #         # Introduce a delay to achieve 1,000 requests per second

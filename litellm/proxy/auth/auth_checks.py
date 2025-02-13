@@ -40,6 +40,7 @@ from litellm.proxy._types import (
     RoleBasedPermissions,
     UserAPIKeyAuth,
 )
+from litellm.litellm_core_utils.async_utils import create_background_task
 from litellm.proxy.auth.route_checks import RouteChecks
 from litellm.proxy.route_llm_request import route_request
 from litellm.proxy.utils import PrismaClient, ProxyLogging, log_db_metrics
@@ -488,7 +489,7 @@ async def _get_fuzzy_user_object(
         )
 
         if response is not None and sso_user_id is not None:  # update sso_user_id
-            asyncio.create_task(  # background task to update user with sso id
+            create_background_task(  # background task to update user with sso id
                 prisma_client.db.litellm_usertable.update(
                     where={"user_id": response.user_id},
                     data={"sso_user_id": sso_user_id},
@@ -1145,7 +1146,7 @@ async def _virtual_key_max_budget_check(
             user_email=user_email,
             key_alias=valid_token.key_alias,
         )
-        asyncio.create_task(
+        create_background_task(
             proxy_logging_obj.budget_alerts(
                 type="token_budget",
                 user_info=call_info,
@@ -1190,7 +1191,7 @@ async def _virtual_key_soft_budget_check(
             user_email=None,
             key_alias=valid_token.key_alias,
         )
-        asyncio.create_task(
+        create_background_task(
             proxy_logging_obj.budget_alerts(
                 type="soft_budget",
                 user_info=call_info,
@@ -1225,7 +1226,7 @@ async def _team_max_budget_check(
                 team_id=valid_token.team_id,
                 team_alias=valid_token.team_alias,
             )
-            asyncio.create_task(
+            create_background_task(
                 proxy_logging_obj.budget_alerts(
                     type="team_budget",
                     user_info=call_info,

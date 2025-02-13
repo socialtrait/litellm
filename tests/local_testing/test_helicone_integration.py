@@ -88,7 +88,7 @@ def create_async_task(**completion_kwargs):
         "mock_response": "It's simple to use and easy to get started",
     }
     completion_args.update(completion_kwargs)
-    return asyncio.create_task(litellm.acompletion(**completion_args))
+    return create_background_task(litellm.acompletion(**completion_args))
 
 
 @pytest.mark.asyncio

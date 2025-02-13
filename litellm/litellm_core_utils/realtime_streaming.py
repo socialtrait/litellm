@@ -5,7 +5,7 @@ async with websockets.connect(  # type: ignore
                     "api-key": api_key,  # type: ignore
                 },
             ) as backend_ws:
-                forward_task = asyncio.create_task(
+                forward_task = create_background_task(
                     forward_messages(websocket, backend_ws)
                 )
 
@@ -89,7 +89,9 @@ class RealTimeStreaming:
         if self.logging_obj:
             ## ASYNC LOGGING
             # Create an event loop for the new thread
-            asyncio.create_task(self.logging_obj.async_success_handler(self.messages))
+            create_background_task(
+                self.logging_obj.async_success_handler(self.messages)
+            )
             ## SYNC LOGGING
             executor.submit(self.logging_obj.success_handler(self.messages))
 
@@ -123,7 +125,7 @@ class RealTimeStreaming:
 
     async def bidirectional_forward(self):
 
-        forward_task = asyncio.create_task(self.backend_to_client_send_messages())
+        forward_task = create_background_task(self.backend_to_client_send_messages())
         try:
             await self.client_ack_messages()
         except self.websockets.exceptions.ConnectionClosed:  # type: ignore

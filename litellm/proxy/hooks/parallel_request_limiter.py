@@ -16,6 +16,7 @@ from litellm.proxy.auth.auth_utils import (
     get_key_model_rpm_limit,
     get_key_model_tpm_limit,
 )
+from litellm.litellm_core_utils.async_utils import create_background_task
 
 if TYPE_CHECKING:
     from opentelemetry.trace import Span as _Span
@@ -422,7 +423,7 @@ class _PROXY_MaxParallelRequestsHandler(CustomLogger):
                 values_to_update_in_cache=values_to_update_in_cache,
             )
 
-        asyncio.create_task(
+        create_background_task(
             self.internal_usage_cache.async_batch_set_cache(
                 cache_list=values_to_update_in_cache,
                 ttl=60,

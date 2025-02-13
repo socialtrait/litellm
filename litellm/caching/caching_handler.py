@@ -444,7 +444,7 @@ class LLMCachingHandler:
             end_time (datetime): The end time of the operation.
             cache_hit (bool): Whether it was a cache hit.
         """
-        asyncio.create_task(
+        create_background_task(
             logging_obj.async_success_handler(
                 cached_result, start_time, end_time, cache_hit
             )
@@ -698,7 +698,7 @@ class LLMCachingHandler:
                         litellm.cache.cache, S3Cache
                     )  # s3 doesn't support bulk writing. Exclude.
                 ):
-                    asyncio.create_task(
+                    create_background_task(
                         litellm.cache.async_add_cache_pipeline(result, **new_kwargs)
                     )
                 elif isinstance(litellm.cache.cache, S3Cache):
@@ -708,13 +708,15 @@ class LLMCachingHandler:
                         kwargs=new_kwargs,
                     ).start()
                 else:
-                    asyncio.create_task(
+                    create_background_task(
                         litellm.cache.async_add_cache(
                             result.model_dump_json(), **new_kwargs
                         )
                     )
             else:
-                asyncio.create_task(litellm.cache.async_add_cache(result, **new_kwargs))
+                create_background_task(
+                    litellm.cache.async_add_cache(result, **new_kwargs)
+                )
 
     def sync_set_cache(
         self,

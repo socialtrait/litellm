@@ -121,7 +121,7 @@ async def _log_completed_batch(
     logging_obj.model_call_details["standard_logging_object"] = standard_logging_object
 
     # Launch async and sync logging handlers
-    asyncio.create_task(
+    create_background_task(
         logging_obj.async_success_handler(
             result=None,
             start_time=start_time,

@@ -64,7 +64,7 @@ async def make_async_calls(metadata=None, **completion_kwargs):
         # Create 100 tasks
         tasks = []
         for _ in range(100):
-            tasks.append(asyncio.create_task(create_and_run_task()))
+            tasks.append(create_background_task(create_and_run_task()))
 
         # Wait for any remaining tasks to complete
         await asyncio.gather(*tasks)
@@ -96,4 +96,4 @@ def create_async_task(**completion_kwargs):
         "mock_response": "Mock response",
     }
     completion_args.update(completion_kwargs)
-    return asyncio.create_task(litellm.acompletion(**completion_args))
+    return create_background_task(litellm.acompletion(**completion_args))

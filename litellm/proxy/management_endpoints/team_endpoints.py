@@ -50,6 +50,7 @@ from litellm.proxy._types import (
     UpdateTeamRequest,
     UserAPIKeyAuth,
 )
+from litellm.litellm_core_utils.async_utils import create_background_task
 from litellm.proxy.auth.auth_checks import (
     allowed_route_check_inside_route,
     get_team_object,
@@ -333,7 +334,7 @@ async def new_team(  # noqa: PLR0915
 
             _updated_values = json.dumps(_updated_values, default=str)
 
-            asyncio.create_task(
+            create_background_task(
                 create_audit_log_for_update(
                     request_data=LiteLLM_AuditLogs(
                         id=str(uuid.uuid4()),
@@ -536,7 +537,7 @@ async def update_team(
         _before_value = json.dumps(_before_value, default=str)
         _after_value: str = json.dumps(updated_kv, default=str)
 
-        asyncio.create_task(
+        create_background_task(
             create_audit_log_for_update(
                 request_data=LiteLLM_AuditLogs(
                     id=str(uuid.uuid4()),
@@ -1162,7 +1163,7 @@ async def delete_team(
 
             _team_row = team_row.json(exclude_none=True)
 
-            asyncio.create_task(
+            create_background_task(
                 create_audit_log_for_update(
                     request_data=LiteLLM_AuditLogs(
                         id=str(uuid.uuid4()),

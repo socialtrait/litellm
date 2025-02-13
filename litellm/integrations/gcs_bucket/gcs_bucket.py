@@ -13,6 +13,7 @@ from litellm.proxy._types import CommonProxyErrors
 from litellm.types.integrations.base_health_check import IntegrationHealthCheckStatus
 from litellm.types.integrations.gcs_bucket import *
 from litellm.types.utils import StandardLoggingPayload
+from litellm.litellm_core_utils.async_utils import create_background_task
 
 if TYPE_CHECKING:
     from litellm.llms.vertex_ai.vertex_llm_base import VertexBase
@@ -36,7 +37,7 @@ class GCSBucketLogger(GCSBucketBase, AdditionalLoggingUtils):
         self.flush_interval = int(
             os.getenv("GCS_FLUSH_INTERVAL", GCS_DEFAULT_FLUSH_INTERVAL_SECONDS)
         )
-        asyncio.create_task(self.periodic_flush())
+        create_background_task(self.periodic_flush())
         self.flush_lock = asyncio.Lock()
         super().__init__(
             flush_lock=self.flush_lock,

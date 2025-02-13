@@ -746,7 +746,7 @@ async def _client_async_logging_helper(
             f"Async Wrapper: Completed Call, calling async_success_handler: {logging_obj.async_success_handler}"
         )
         # check if user does not want this to be logged
-        asyncio.create_task(
+        create_background_task(
             logging_obj.async_success_handler(result, start_time, end_time)
         )
         logging_obj.handle_sync_success_callbacks_for_async_calls(
@@ -1289,7 +1289,7 @@ def client(original_function):  # noqa: PLR0915
             )
 
             # LOG SUCCESS - handle streaming success logging in the _next_ object
-            asyncio.create_task(
+            create_background_task(
                 _client_async_logging_helper(
                     logging_obj=logging_obj,
                     result=result,

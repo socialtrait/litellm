@@ -90,7 +90,7 @@ class SlackAlerting(CustomBatchLogger):
     ):
         if alerting is not None:
             self.alerting = alerting
-            asyncio.create_task(self.periodic_flush())
+            create_background_task(self.periodic_flush())
         if alerting_threshold is not None:
             self.alerting_threshold = alerting_threshold
         if alert_types is not None:

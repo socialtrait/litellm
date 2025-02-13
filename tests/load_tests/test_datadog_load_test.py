@@ -101,4 +101,4 @@ def create_async_task(**completion_kwargs):
         "mock_response": "hello from my load test",
     }
     completion_args.update(completion_kwargs)
-    return asyncio.create_task(litellm.acompletion(**completion_args))
+    return create_background_task(litellm.acompletion(**completion_args))

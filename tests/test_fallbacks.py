@@ -305,7 +305,7 @@ async def test_chat_completion_bad_and_good_model():
 
         # Fire and forget bad model requests
         for _ in range(num_requests):
-            asyncio.create_task(make_request(client, "bad-model"))
+            create_background_task(make_request(client, "bad-model"))
 
         # Wait only for good model requests
         success = await run_good_model_test(client, num_requests)

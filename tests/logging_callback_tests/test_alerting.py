@@ -240,7 +240,7 @@ async def test_send_alert(slack_alerting):
 
     from litellm._logging import verbose_logger
 
-    asyncio.create_task(slack_alerting.periodic_flush())
+    create_background_task(slack_alerting.periodic_flush())
     verbose_logger.setLevel(level=logging.DEBUG)
     with patch.object(
         slack_alerting.async_http_handler, "post", new=AsyncMock()

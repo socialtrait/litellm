@@ -74,7 +74,7 @@ class ArgillaLogger(CustomBatchLogger):
         )
         if _batch_size:
             self.batch_size = int(_batch_size)
-        asyncio.create_task(self.periodic_flush())
+        create_background_task(self.periodic_flush())
         self.flush_lock = asyncio.Lock()
         super().__init__(**kwargs, flush_lock=self.flush_lock)
 

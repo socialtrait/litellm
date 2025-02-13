@@ -242,7 +242,7 @@ def test_s3_logging_async():
 async def make_async_calls():
     tasks = []
     for _ in range(5):
-        task = asyncio.create_task(
+        task = create_background_task(
             litellm.acompletion(
                 model="azure/chatgpt-v-2",
                 messages=[{"role": "user", "content": "This is a test"}],

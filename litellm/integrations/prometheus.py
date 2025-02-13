@@ -1330,7 +1330,7 @@ class PrometheusLogger(CustomLogger):
 
         try:
             if asyncio.get_running_loop():
-                asyncio.create_task(self._initialize_remaining_budget_metrics())
+                create_background_task(self._initialize_remaining_budget_metrics())
         except RuntimeError as e:  # no running event loop
             verbose_logger.exception(
                 f"No running event loop - skipping budget metrics initialization: {str(e)}"

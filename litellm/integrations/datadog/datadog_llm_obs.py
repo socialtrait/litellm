@@ -23,6 +23,7 @@ from litellm.llms.custom_httpx.http_handler import (
 )
 from litellm.types.integrations.datadog_llm_obs import *
 from litellm.types.utils import StandardLoggingPayload
+from litellm.litellm_core_utils.async_utils import create_background_task
 
 
 class DataDogLLMObsLogger(DataDogLogger, CustomBatchLogger):
@@ -50,7 +51,7 @@ class DataDogLLMObsLogger(DataDogLogger, CustomBatchLogger):
             if dd_base_url:
                 self.intake_url = f"{dd_base_url}/api/intake/llm-obs/v1/trace/spans"
 
-            asyncio.create_task(self.periodic_flush())
+            create_background_task(self.periodic_flush())
             self.flush_lock = asyncio.Lock()
             self.log_queue: List[LLMObsPayload] = []
             CustomBatchLogger.__init__(self, **kwargs, flush_lock=self.flush_lock)

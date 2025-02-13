@@ -23,6 +23,7 @@ from litellm.llms.custom_httpx.http_handler import (
     get_async_httpx_client,
     httpxSpecialProvider,
 )
+from litellm.litellm_core_utils.async_utils import create_background_task
 
 
 class GcsPubSubLogger(CustomBatchLogger):
@@ -60,7 +61,7 @@ class GcsPubSubLogger(CustomBatchLogger):
 
         self.flush_lock = asyncio.Lock()
         super().__init__(**kwargs, flush_lock=self.flush_lock)
-        asyncio.create_task(self.periodic_flush())
+        create_background_task(self.periodic_flush())
         self.log_queue: List[SpendLogsPayload] = []
 
     async def construct_request_headers(self) -> Dict[str, str]:

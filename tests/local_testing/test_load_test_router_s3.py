@@ -63,7 +63,7 @@
 #     start_time_all_tasks = time.time()
 #     # Launch 1000 tasks
 #     for _ in range(500):
-#         task = asyncio.create_task(
+#         task = create_background_task(
 #             call_acompletion(
 #                 semaphore,
 #                 router,

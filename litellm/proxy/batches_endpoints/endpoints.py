@@ -24,6 +24,7 @@ from litellm.proxy.common_utils.openai_endpoint_utils import (
 )
 from litellm.proxy.openai_files_endpoints.files_endpoints import is_known_model
 from litellm.proxy.utils import handle_exception_on_proxy
+from litellm.litellm_core_utils.async_utils import create_background_task
 
 router = APIRouter()
 
@@ -124,7 +125,7 @@ async def create_batch(
             )
 
         ### ALERTING ###
-        asyncio.create_task(
+        create_background_task(
             proxy_logging_obj.update_request_status(
                 litellm_call_id=data.get("litellm_call_id", ""), status="success"
             )
@@ -233,7 +234,7 @@ async def retrieve_batch(
             )
 
         ### ALERTING ###
-        asyncio.create_task(
+        create_background_task(
             proxy_logging_obj.update_request_status(
                 litellm_call_id=data.get("litellm_call_id", ""), status="success"
             )
@@ -430,7 +431,7 @@ async def cancel_batch(
         )
 
         ### ALERTING ###
-        asyncio.create_task(
+        create_background_task(
             proxy_logging_obj.update_request_status(
                 litellm_call_id=data.get("litellm_call_id", ""), status="success"
             )

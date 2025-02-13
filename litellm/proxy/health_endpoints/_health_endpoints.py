@@ -20,6 +20,7 @@ from litellm.proxy._types import (
 )
 from litellm.proxy.auth.user_api_key_auth import user_api_key_auth
 from litellm.proxy.health_check import perform_health_check
+from litellm.litellm_core_utils.async_utils import create_background_task
 
 #### Health ENDPOINTS ####
 
@@ -216,10 +217,10 @@ async def health_services_endpoint(  # noqa: PLR0915
                     )
 
                 if prisma_client is not None:
-                    asyncio.create_task(
+                    create_background_task(
                         proxy_logging_obj.slack_alerting_instance.send_monthly_spend_report()
                     )
-                    asyncio.create_task(
+                    create_background_task(
                         proxy_logging_obj.slack_alerting_instance.send_weekly_spend_report()
                     )
 

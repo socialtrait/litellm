@@ -31,6 +31,7 @@ from litellm.proxy.common_utils.openai_endpoint_utils import (
     get_custom_llm_provider_from_request_body,
 )
 from litellm.router import Router
+from litellm.litellm_core_utils.async_utils import create_background_task
 
 router = APIRouter()
 
@@ -221,7 +222,7 @@ async def create_file(
             response = await litellm.acreate_file(**_create_file_request, custom_llm_provider=custom_llm_provider)  # type: ignore
 
         ### ALERTING ###
-        asyncio.create_task(
+        create_background_task(
             proxy_logging_obj.update_request_status(
                 litellm_call_id=data.get("litellm_call_id", ""), status="success"
             )
@@ -338,7 +339,7 @@ async def get_file_content(
         )
 
         ### ALERTING ###
-        asyncio.create_task(
+        create_background_task(
             proxy_logging_obj.update_request_status(
                 litellm_call_id=data.get("litellm_call_id", ""), status="success"
             )
@@ -464,7 +465,7 @@ async def get_file(
         )
 
         ### ALERTING ###
-        asyncio.create_task(
+        create_background_task(
             proxy_logging_obj.update_request_status(
                 litellm_call_id=data.get("litellm_call_id", ""), status="success"
             )
@@ -582,7 +583,7 @@ async def delete_file(
         )
 
         ### ALERTING ###
-        asyncio.create_task(
+        create_background_task(
             proxy_logging_obj.update_request_status(
                 litellm_call_id=data.get("litellm_call_id", ""), status="success"
             )
@@ -699,7 +700,7 @@ async def list_files(
         )
 
         ### ALERTING ###
-        asyncio.create_task(
+        create_background_task(
             proxy_logging_obj.update_request_status(
                 litellm_call_id=data.get("litellm_call_id", ""), status="success"
             )

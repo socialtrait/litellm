@@ -52,7 +52,7 @@ class RouterBudgetLimiting(CustomLogger):
     ):
         self.dual_cache = dual_cache
         self.redis_increment_operation_queue: List[RedisPipelineIncrementOperation] = []
-        asyncio.create_task(self.periodic_sync_in_memory_spend_with_redis())
+        create_background_task(self.periodic_sync_in_memory_spend_with_redis())
         self.provider_budget_config: Optional[GenericBudgetConfigType] = (
             provider_budget_config
         )
@@ -492,7 +492,7 @@ class RouterBudgetLimiting(CustomLogger):
                 self.redis_increment_operation_queue,
             )
             if len(self.redis_increment_operation_queue) > 0:
-                asyncio.create_task(
+                create_background_task(
                     self.dual_cache.redis_cache.async_increment_pipeline(
                         increment_list=self.redis_increment_operation_queue,
                     )
@@ -745,7 +745,7 @@ class RouterBudgetLimiting(CustomLogger):
                         budget_limit=config.get("budget_limit"),
                         time_period=config.get("time_period"),
                     )
-                asyncio.create_task(
+                create_background_task(
                     self._init_provider_budget_in_cache(
                         provider=provider,
                         budget_config=self.provider_budget_config[provider],

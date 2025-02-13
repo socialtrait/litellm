@@ -71,7 +71,7 @@ async def rerank(
         response = await llm_call
 
         ### ALERTING ###
-        asyncio.create_task(
+        create_background_task(
             proxy_logging_obj.update_request_status(
                 litellm_call_id=data.get("litellm_call_id", ""), status="success"
             )

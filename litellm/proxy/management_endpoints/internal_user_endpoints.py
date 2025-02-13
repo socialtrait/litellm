@@ -209,7 +209,7 @@ async def new_user(
         )
 
         # If user configured email alerting - send an Email letting their end-user know the key was created
-        asyncio.create_task(
+        create_background_task(
             proxy_logging_obj.slack_alerting_instance.send_key_created_or_user_invited_email(
                 webhook_event=event,
             )
@@ -855,7 +855,7 @@ async def delete_user(
                 # make an audit log for each team deleted
                 _user_row = user_row.json(exclude_none=True)
 
-                asyncio.create_task(
+                create_background_task(
                     create_audit_log_for_update(
                         request_data=LiteLLM_AuditLogs(
                             id=str(uuid.uuid4()),

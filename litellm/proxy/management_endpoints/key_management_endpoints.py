@@ -547,7 +547,7 @@ async def generate_key_fn(  # noqa: PLR0915
 
         response = GenerateKeyResponse(**response)
 
-        asyncio.create_task(
+        create_background_task(
             KeyManagementEventHooks.async_key_generated_hook(
                 data=data,
                 response=response,
@@ -757,7 +757,7 @@ async def update_key_fn(
             proxy_logging_obj=proxy_logging_obj,
         )
 
-        asyncio.create_task(
+        create_background_task(
             KeyManagementEventHooks.async_key_updated_hook(
                 data=data,
                 existing_key_row=existing_key_row,
@@ -886,7 +886,7 @@ async def delete_key_fn(
             f"/keys/delete - cache after delete: {user_api_key_cache.in_memory_cache.cache_dict}"
         )
 
-        asyncio.create_task(
+        create_background_task(
             KeyManagementEventHooks.async_key_deleted_hook(
                 data=data,
                 keys_being_deleted=_keys_being_deleted,
@@ -1661,7 +1661,7 @@ async def regenerate_key_fn(
             **updated_token_dict,
         )
 
-        asyncio.create_task(
+        create_background_task(
             KeyManagementEventHooks.async_key_rotated_hook(
                 data=data,
                 existing_key_row=_key_in_db,
@@ -1898,7 +1898,7 @@ async def block_key(
                 param="key",
                 code=status.HTTP_404_NOT_FOUND,
             )
-        asyncio.create_task(
+        create_background_task(
             create_audit_log_for_update(
                 request_data=LiteLLM_AuditLogs(
                     id=str(uuid.uuid4()),
@@ -2005,7 +2005,7 @@ async def unblock_key(
                 param="key",
                 code=status.HTTP_404_NOT_FOUND,
             )
-        asyncio.create_task(
+        create_background_task(
             create_audit_log_for_update(
                 request_data=LiteLLM_AuditLogs(
                     id=str(uuid.uuid4()),

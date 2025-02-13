@@ -37,6 +37,7 @@ from litellm.types.integrations.base_health_check import IntegrationHealthCheckS
 from litellm.types.integrations.datadog import *
 from litellm.types.services import ServiceLoggerPayload
 from litellm.types.utils import StandardLoggingPayload
+from litellm.litellm_core_utils.async_utils import create_background_task
 
 from ..additional_logging_utils import AdditionalLoggingUtils
 
@@ -85,7 +86,7 @@ class DataDogLogger(
                 self.intake_url = f"{dd_base_url}/api/v2/logs"
             ###################################
             self.sync_client = _get_httpx_client()
-            asyncio.create_task(self.periodic_flush())
+            create_background_task(self.periodic_flush())
             self.flush_lock = asyncio.Lock()
             super().__init__(
                 **kwargs, flush_lock=self.flush_lock, batch_size=DD_MAX_BATCH_SIZE

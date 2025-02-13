@@ -271,7 +271,7 @@ def _set_cooldown_deployments(
         )
 
         # Trigger cooldown callback handler
-        asyncio.create_task(
+        create_background_task(
             router_cooldown_event_callback(
                 litellm_router_instance=litellm_router_instance,
                 deployment_id=deployment,

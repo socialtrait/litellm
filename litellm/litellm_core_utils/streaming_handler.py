@@ -1568,7 +1568,7 @@ class CustomStreamWrapper:
                         continue
 
                     if self.logging_obj._llm_caching_handler is not None:
-                        asyncio.create_task(
+                        create_background_task(
                             self.logging_obj._llm_caching_handler._add_streaming_response_to_cache(
                                 processed_chunk=cast(ModelResponse, processed_chunk),
                             )
@@ -1648,7 +1648,7 @@ class CustomStreamWrapper:
                     self.sent_stream_usage = True
                     return response
 
-                asyncio.create_task(
+                create_background_task(
                     self.logging_obj.async_success_handler(
                         complete_streaming_response,
                         cache_hit=cache_hit,
@@ -1683,7 +1683,7 @@ class CustomStreamWrapper:
                     args=(e, traceback_exception),
                 ).start()  # log response
                 # Handle any exceptions that might occur during streaming
-                asyncio.create_task(
+                create_background_task(
                     self.logging_obj.async_failure_handler(e, traceback_exception)
                 )
             raise e
@@ -1696,7 +1696,7 @@ class CustomStreamWrapper:
                     args=(e, traceback_exception),
                 ).start()  # log response
                 # Handle any exceptions that might occur during streaming
-                asyncio.create_task(
+                create_background_task(
                     self.logging_obj.async_failure_handler(e, traceback_exception)  # type: ignore
                 )
             ## Map to OpenAI Exception

@@ -146,4 +146,4 @@ def create_async_task(message_type):
         "timeout": 10,
         "api_base": base_url,
     }
-    return asyncio.create_task(litellm.acompletion(**completion_args))
+    return create_background_task(litellm.acompletion(**completion_args))
