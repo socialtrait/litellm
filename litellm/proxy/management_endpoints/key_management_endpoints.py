@@ -31,6 +31,7 @@ from litellm.proxy.auth.auth_checks import (
     get_key_object,
     get_team_object,
 )
+from litellm.litellm_core_utils.async_utils import create_background_task
 from litellm.proxy.auth.user_api_key_auth import user_api_key_auth
 from litellm.proxy.hooks.key_management_event_hooks import KeyManagementEventHooks
 from litellm.proxy.management_helpers.utils import management_endpoint_wrapper

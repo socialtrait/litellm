@@ -22,6 +22,7 @@ from litellm.types.utils import (
     StreamingChoices,
     Usage,
 )
+from litellm.litellm_core_utils.async_utils import create_background_task
 
 from ..exceptions import OpenAIError
 from .core_helpers import map_finish_reason, process_response_headers

@@ -48,6 +48,7 @@ from litellm.types.utils import (
     TextCompletionResponse,
     TranscriptionResponse,
 )
+from litellm.litellm_core_utils.async_utils import create_background_task
 
 if TYPE_CHECKING:
     from litellm.litellm_core_utils.litellm_logging import Logging as LiteLLMLoggingObj

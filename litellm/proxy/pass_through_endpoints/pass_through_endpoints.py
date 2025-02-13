@@ -13,6 +13,7 @@ import litellm
 from litellm._logging import verbose_proxy_logger
 from litellm.integrations.custom_logger import CustomLogger
 from litellm.llms.custom_httpx.http_handler import get_async_httpx_client
+from litellm.litellm_core_utils.async_utils import create_background_task
 from litellm.proxy._types import (
     ConfigFieldInfo,
     ConfigFieldUpdate,

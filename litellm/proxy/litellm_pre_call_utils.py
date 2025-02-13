@@ -24,6 +24,7 @@ from litellm.types.utils import (
     StandardLoggingUserAPIKeyMetadata,
     SupportedCacheControls,
 )
+from litellm.litellm_core_utils.async_utils import create_background_task
 
 service_logger_obj = ServiceLogging()  # used for tracking latency on OTEL
 

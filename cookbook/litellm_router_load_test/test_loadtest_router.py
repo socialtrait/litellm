@@ -9,6 +9,7 @@ sys.path.insert(
 import asyncio
 from litellm import Router, Timeout
 import time
+from litellm.litellm_core_utils.async_utils import create_background_task
 
 ### Test calling router async
 

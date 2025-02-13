@@ -11,6 +11,7 @@ from litellm import Router, Timeout
 import time
 from litellm.caching.caching import Cache
 import litellm
+from litellm.litellm_core_utils.async_utils import create_background_task
 
 litellm.cache = Cache(
     type="s3", s3_bucket_name="cache-bucket-litellm", s3_region_name="us-west-2"

@@ -32,6 +32,7 @@ from typing import Any, Dict, List, Optional, Union
 import litellm
 
 from .litellm_logging import Logging as LiteLLMLogging
+from litellm.litellm_core_utils.async_utils import create_background_task
 
 # Create a thread pool with a maximum of 10 threads
 executor = concurrent.futures.ThreadPoolExecutor(max_workers=10)

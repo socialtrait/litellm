@@ -20,6 +20,7 @@ from litellm.proxy._types import (
     ProxyErrorTypes,
     ProxyException,
 )
+from litellm.litellm_core_utils.async_utils import create_background_task
 
 try:
     import backoff

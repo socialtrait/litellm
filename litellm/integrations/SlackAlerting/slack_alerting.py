@@ -27,6 +27,7 @@ from litellm.llms.custom_httpx.http_handler import (
 )
 from litellm.proxy._types import AlertType, CallInfo, VirtualKeyEvent, WebhookEvent
 from litellm.types.integrations.slack_alerting import *
+from litellm.litellm_core_utils.async_utils import create_background_task
 
 from ..email_templates.templates import *
 from .batching_handler import send_to_webhook, squash_payloads

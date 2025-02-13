@@ -11,6 +11,7 @@ from typing import TYPE_CHECKING, Any, List, Optional, Union
 
 import litellm
 from litellm._logging import verbose_router_logger
+from litellm.litellm_core_utils.async_utils import create_background_task
 from litellm.constants import (
     DEFAULT_COOLDOWN_TIME_SECONDS,
     DEFAULT_FAILURE_THRESHOLD_PERCENT,

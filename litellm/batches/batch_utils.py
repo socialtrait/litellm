@@ -10,6 +10,7 @@ from litellm.constants import (
     BATCH_STATUS_POLL_INTERVAL_SECONDS,
     BATCH_STATUS_POLL_MAX_ATTEMPTS,
 )
+from litellm.litellm_core_utils.async_utils import create_background_task
 from litellm.files.main import afile_content
 from litellm.litellm_core_utils.litellm_logging import Logging as LiteLLMLoggingObj
 from litellm.types.llms.openai import Batch

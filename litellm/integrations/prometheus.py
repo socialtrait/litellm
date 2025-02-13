@@ -13,6 +13,7 @@ from litellm.proxy._types import LiteLLM_TeamTable, UserAPIKeyAuth
 from litellm.types.integrations.prometheus import *
 from litellm.types.utils import StandardLoggingPayload
 from litellm.utils import get_end_user_id_for_cost_tracking
+from litellm.litellm_core_utils.async_utils import create_background_task
 
 
 class PrometheusLogger(CustomLogger):

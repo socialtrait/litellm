@@ -32,6 +32,7 @@ from litellm.router_strategy.tag_based_routing import _get_tags_from_request_kwa
 from litellm.router_utils.cooldown_callbacks import (
     _get_prometheus_logger_from_callbacks,
 )
+from litellm.litellm_core_utils.async_utils import create_background_task
 from litellm.types.llms.openai import AllMessageValues
 from litellm.types.router import DeploymentTypedDict, LiteLLM_Params, RouterErrors
 from litellm.types.utils import BudgetConfig

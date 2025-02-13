@@ -284,6 +284,7 @@ from litellm.types.utils import CustomHuggingfaceTokenizer
 from litellm.types.utils import ModelInfo as ModelMapInfo
 from litellm.types.utils import StandardLoggingPayload
 from litellm.utils import _add_custom_logger_callback_to_specific_event
+from litellm.litellm_core_utils.async_utils import create_background_task
 
 try:
     from litellm._version import version

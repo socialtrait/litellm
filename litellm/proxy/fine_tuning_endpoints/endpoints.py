@@ -22,6 +22,7 @@ router = APIRouter()
 from litellm.types.llms.openai import LiteLLMFineTuningJobCreate
 
 fine_tuning_config = None
+from litellm.litellm_core_utils.async_utils import create_background_task
 
 
 def set_fine_tuning_config(config):

@@ -10,6 +10,8 @@ import asyncio
 from litellm import Timeout
 import time
 import openai
+from litellm.litellm_core_utils.async_utils import create_background_task
+
 
 ### Test just calling AsyncAzureOpenAI
 

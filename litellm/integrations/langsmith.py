@@ -19,6 +19,7 @@ from litellm.llms.custom_httpx.http_handler import (
     get_async_httpx_client,
     httpxSpecialProvider,
 )
+from litellm.litellm_core_utils.async_utils import create_background_task
 from litellm.types.integrations.langsmith import *
 from litellm.types.utils import StandardCallbackDynamicParams, StandardLoggingPayload
 

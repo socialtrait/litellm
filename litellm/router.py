@@ -42,6 +42,7 @@ from typing_extensions import overload
 import litellm
 import litellm.litellm_core_utils
 import litellm.litellm_core_utils.exception_mapping_utils
+from litellm.litellm_core_utils.async_utils import create_background_task
 from litellm import get_secret_str
 from litellm._logging import verbose_router_logger
 from litellm.caching.caching import DualCache, InMemoryCache, RedisCache

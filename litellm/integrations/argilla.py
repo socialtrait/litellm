@@ -25,6 +25,7 @@ from litellm.types.integrations.argilla import (
     ArgillaCredentialsObject,
     ArgillaItem,
 )
+from litellm.litellm_core_utils.async_utils import create_background_task
 from litellm.types.utils import StandardLoggingPayload
 
 
