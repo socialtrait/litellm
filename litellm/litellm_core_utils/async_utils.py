@@ -12,7 +12,7 @@ def create_background_task(
 ):
     """Create background task, keeping a strong reference to it until it's done."""
 
-    task = create_background_task(coro, name=name)
+    task = asyncio.create_task(coro, name=name)
 
     # Add task to the background tasks set to create a strong reference
     # Make the task remove its own reference from the set after completion
